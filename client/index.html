@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Boids</title>
+    <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0px;
+      border: 0;
+      overflow: hidden; /*  Disable scrollbars */
+      display: block;  /* No floating content on sides */
+    }
+    </style>
+</head>
+
+<body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"></script>
+    <script src="client/boid.js"></script>
+    <script src="client/sketch.js"></script>
+    <script> 
+        var socket = io() 
+        var myColor
+        function mouseClicked() {
+            socket.emit('add-target', {
+                x: mouseX / windowWidth,
+                y: mouseY / windowHeight,
+                color: myColor
+            })
+        }
+
+        socket.on('update-targets', (data) => {
+            targets = []
+            console.log(data)
+            data.forEach(target => {
+                targets.push({
+                    position: createVector(target.x, target.y),
+                    color: target.color
+                })
+            })
+        })
+
+        socket.on('set-color', (data) => {
+            console.log(data)
+            myColor = data
+        })
+
+        function keyPressed() {
+            if(keyCode == 82) {
+                resetTargets()
+            }
+        }
+
+        function resetTargets() {
+            socket.emit('reset-targets')
+        }
+
+    </script>
+
+</body> 
+</html>
