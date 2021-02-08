@@ -12,6 +12,19 @@ function mouseClicked() {
     })
 }
 
+function touchStarted() {
+    if(mouseX < 200 && mouseY < 200) { //sliders + reset button
+        return
+    }
+    
+    socket.emit('add-target', {
+        x: mouseX / windowWidth,
+        y: mouseY / windowHeight,
+        color: myColor
+    })  
+}
+  
+
 socket.on('update-targets', (data) => {
     targets = []
     data.forEach(target => {

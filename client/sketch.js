@@ -61,11 +61,11 @@ function draw() {
 
 function renderText() {
     textBuffer.fill(255)
-    textBuffer.text("Seek Force: " + seekSlider.value(), 20, 20)
-    textBuffer.text("Separation Force: " + separationSlider.value(), 20, 50)
-    textBuffer.text("Alignment Force: " + alignSlider.value(), 20, 80)
-    textBuffer.text("Cohesion Force: " + cohesionSlider.value(), 20, 110)
-    textBuffer.text("Sight Radius: " + sightSlider.value(), 20, 140)
+    textBuffer.text("Seek Force", 20, 20)
+    textBuffer.text("Separation Force", 20, 50)
+    textBuffer.text("Alignment Force", 20, 80)
+    textBuffer.text("Cohesion Force", 20, 110)
+    textBuffer.text("Sight Radius", 20, 140)
 }
 
 function showSightTemp() {
