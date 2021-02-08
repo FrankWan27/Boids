@@ -8,7 +8,7 @@ class Flock {
     }
 
     remove(amount) {
-        if(this.flock <= POP_SIZE * 0.1) {
+        if(this.flock.length <= POP_SIZE * 0.1) {
             return
         }
         for(let i = 0; i < amount; i++) {
