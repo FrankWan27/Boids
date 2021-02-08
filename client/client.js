@@ -1,7 +1,7 @@
 var socket = io() 
 var myColor
 function mouseClicked() {
-    if(mouseX < 150 && mouseY < 165) { //sliders + reset button
+    if(mouseX < 200 && mouseY < 200) { //sliders + reset button
         return
     }
     
@@ -14,7 +14,6 @@ function mouseClicked() {
 
 socket.on('update-targets', (data) => {
     targets = []
-    console.log(data)
     data.forEach(target => {
         targets.push({
             position: createVector(target.x, target.y),
