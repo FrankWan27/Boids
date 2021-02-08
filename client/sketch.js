@@ -12,6 +12,8 @@ var seekSlider, separationSlider, alignSlider, cohesionSlider, sightSlider, rese
 var showSight = false
 const runningFps = []
 var sightTimer = 0
+var textBuffer 
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
     windowVec = createVector(windowWidth, windowHeight)
@@ -30,6 +32,8 @@ function setup() {
     resetButton.position(20, 170);
     resetButton.mousePressed(resetTargets);
     flock = new Flock(POP_SIZE)
+    textBuffer = createGraphics(200, 200);
+    renderText()
 }
 
 function draw() {
@@ -48,7 +52,7 @@ function draw() {
         point(p5.Vector.mult(target.position, windowVec))
         pop()
     })
-    renderText()
+    image(textBuffer, 0, 0)
     if(millis() > sightTimer) {
         showSight = false
     }
@@ -56,14 +60,12 @@ function draw() {
 }
 
 function renderText() {
-    push()
-    fill(255)
-    text("Seek Force: " + seekSlider.value(), 20, 20)
-    text("Separation Force: " + separationSlider.value(), 20, 50)
-    text("Alignment Force: " + alignSlider.value(), 20, 80)
-    text("Cohesion Force: " + cohesionSlider.value(), 20, 110)
-    text("Sight Radius: " + sightSlider.value(), 20, 140)
-    pop()
+    textBuffer.fill(255)
+    textBuffer.text("Seek Force: " + seekSlider.value(), 20, 20)
+    textBuffer.text("Separation Force: " + separationSlider.value(), 20, 50)
+    textBuffer.text("Alignment Force: " + alignSlider.value(), 20, 80)
+    textBuffer.text("Cohesion Force: " + cohesionSlider.value(), 20, 110)
+    textBuffer.text("Sight Radius: " + sightSlider.value(), 20, 140)
 }
 
 function showSightTemp() {
