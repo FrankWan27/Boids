@@ -45,13 +45,16 @@ class Boid {
 
         flock.forEach(other => {
 
-            let distance = (this.position.x - other.position.x) ** 2 + (this.position.y - other.position.y) ** 2
+            if (other != this) 
+            {
+                let distance = (this.position.x - other.position.x) ** 2 + (this.position.y - other.position.y) ** 2
 
-            if(distance > 0 && distance < sightSlider.value() ** 2) {
-                totalSeparationForce.add(p5.Vector.sub(this.position, other.position).normalize().div(distance))
-                totalAlignForce.add(other.velocity)
-                totalCohesionForce.add(other.position)
-                close++
+                if(distance < sightSlider.value() ** 2) {
+                    totalSeparationForce.add(p5.Vector.sub(this.position, other.position).normalize().div(distance))
+                    totalAlignForce.add(other.velocity)
+                    totalCohesionForce.add(other.position)
+                    close++
+                }
             }
         })
 
