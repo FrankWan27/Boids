@@ -10,6 +10,7 @@ let windowVec
 
 var seekSlider, separationSlider, alignSlider, cohesionSlider, sightSlider, resetButton
 var showSight = false
+const runningFps = []
 var sightTimer = 0
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -78,11 +79,19 @@ function windowResized() {
 }
 
 function checkFps() {
-    let fr = frameRate()
+    runningFps.push(frameRate())
+    if(runningFps.length > 10) {
+        runningFps.shift()
+    }
+    let avgFps = 0
+    runningFps.forEach((value) => {
+        avgFps += value
+    })
+    avgFps /= runningFps.length
     console.log(flock.flock.length)
-    if(fr < MIN_FRAMERATE) {
+    if(avgFps < MIN_FRAMERATE) {
         flock.remove(10)
-    } else if(fr > MAX_FRAMERATE) {
+    } else if(avgFps > MAX_FRAMERATE) {
         flock.add()
     }
 }
