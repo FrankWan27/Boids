@@ -12,15 +12,15 @@ var sightTimer = 0
 function setup() {
     createCanvas(windowWidth, windowHeight);
     windowVec = createVector(windowWidth, windowHeight)
-    seekSlider = createSlider(0, 2, 1, 0.1);
+    seekSlider = createSlider(0, 4, 1.4, 0.1);
     seekSlider.position(20, 20)
-    separationSlider = createSlider(0, 2, 1, 0.1);
+    separationSlider = createSlider(0, 4, 1, 0.1);
     separationSlider.position(20, 50)
-    alignSlider = createSlider(0, 2, 1, 0.1);
+    alignSlider = createSlider(0, 4, 1, 0.1);
     alignSlider.position(20, 80)
-    cohesionSlider = createSlider(0, 2, 1, 0.1);
+    cohesionSlider = createSlider(0, 4, 0.7, 0.1);
     cohesionSlider.position(20, 110)
-    sightSlider = createSlider(10, 500, 200, 10);
+    sightSlider = createSlider(10, 500, 150, 10);
     sightSlider.position(20, 140)
     sightSlider.input(showSightTemp)
     resetButton = createButton('Reset');

@@ -6,6 +6,7 @@ class Boid {
         this.size = 3
         this.maxSpeed = 10
         this.maxForce = 0.1
+        this.targetIndex = 0
         this.debug = debug
     }
 
@@ -50,7 +51,9 @@ class Boid {
                 let distance = (this.position.x - other.position.x) ** 2 + (this.position.y - other.position.y) ** 2
 
                 if(distance < sightSlider.value() ** 2) {
-                    totalSeparationForce.add(p5.Vector.sub(this.position, other.position).normalize().div(distance))
+                    if(distance < (sightSlider.value() / 4) ** 2) {
+                        totalSeparationForce.add(p5.Vector.sub(this.position, other.position).normalize().div(distance))
+                    }
                     totalAlignForce.add(other.velocity)
                     totalCohesionForce.add(other.position)
                     close++
