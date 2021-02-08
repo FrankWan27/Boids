@@ -1,12 +1,12 @@
 class Boid {
-	constructor() {
+	constructor(debug) {
         this.position = createVector(random(windowWidth), random(windowHeight))
         this.velocity = createVector()
         this.acceleration = createVector()
         this.size = 3
         this.maxSpeed = 10
         this.maxForce = 0.1
-        this.visionRadius = 200
+        this.debug = debug
     }
 
     think(targets, flock) {
@@ -46,7 +46,7 @@ class Boid {
         flock.forEach(other => {
             let distance = p5.Vector.dist(this.position, other.position)
 
-            if(distance > 0 && distance < this.visionRadius) {
+            if(distance > 0 && distance < sightSlider.value()) {
                 totalSeparationForce.add(p5.Vector.sub(this.position, other.position).normalize().div(distance))
                 totalAlignForce.add(other.velocity)
                 totalCohesionForce.add(other.position)
@@ -108,6 +108,16 @@ class Boid {
         vertex(this.size, this.size * 2)
         endShape(CLOSE)
         pop()
+        if(showSight && this.debug) { 
+            this.drawSight()
+        }
+    }
 
+    drawSight() {
+        push()
+        stroke(255)
+        noFill()
+        circle(this.position.x, this.position.y, sightSlider.value() * 2)
+        pop()
     }
 }

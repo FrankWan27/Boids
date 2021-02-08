@@ -13,52 +13,15 @@
       display: block;  /* No floating content on sides */
     }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"></script>
 </head>
 
 <body>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"></script>
     <script src="client/boid.js"></script>
     <script src="client/sketch.js"></script>
-    <script> 
-        var socket = io() 
-        var myColor
-        function mouseClicked() {
-            socket.emit('add-target', {
-                x: mouseX / windowWidth,
-                y: mouseY / windowHeight,
-                color: myColor
-            })
-        }
-
-        socket.on('update-targets', (data) => {
-            targets = []
-            console.log(data)
-            data.forEach(target => {
-                targets.push({
-                    position: createVector(target.x, target.y),
-                    color: target.color
-                })
-            })
-        })
-
-        socket.on('set-color', (data) => {
-            console.log(data)
-            myColor = data
-        })
-
-        function keyPressed() {
-            if(keyCode == 82) {
-                resetTargets()
-            }
-        }
-
-        function resetTargets() {
-            socket.emit('reset-targets')
-        }
-
-    </script>
+    <script src="client/client.js"></script>
 
 </body> 
 </html>
