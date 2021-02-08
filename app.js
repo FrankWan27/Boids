@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 
 app.use('/client', express.static(__dirname + '/client'))
 
-serv.listen(2000)
+serv.listen(process.env.PORT || 2000)
 console.log("Server started")
 
 io.sockets.on('connection', (socket) => {
