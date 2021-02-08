@@ -21,11 +21,8 @@ let colors =
 [239, 48, 84, 180], //Red Crayola
 [225, 85, 84, 180], //Indian Red
 [195, 49, 73, 180], //French Raspberry
-[55, 61, 32, 180], //Kombu Green
-[43, 45, 66, 180], //Space Cadet
-[74, 66, 56, 180], //Dark Lava
-[137, 2, 62, 180], //Claret
-[43, 65, 98, 180]] //Indigo Dye
+[137, 2, 62, 180]] //Claret
+
 
 module.exports = {
 	randomColor: function() {
