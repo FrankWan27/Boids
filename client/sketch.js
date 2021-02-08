@@ -88,7 +88,6 @@ function checkFps() {
         avgFps += value
     })
     avgFps /= runningFps.length
-    console.log(flock.flock.length)
     if(avgFps < MIN_FRAMERATE) {
         flock.remove(10)
     } else if(avgFps > MAX_FRAMERATE) {
