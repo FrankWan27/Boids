@@ -1,7 +1,9 @@
 /// <reference path="../TSDef/p5.global-mode.d.ts" />
 
+const MIN_FRAMERATE = 40
+const MAX_FRAMERATE = 70
 const POP_SIZE = 200
-const flock = []
+var flock
 var targets = []
 
 let windowVec
@@ -26,17 +28,14 @@ function setup() {
     resetButton = createButton('Reset');
     resetButton.position(20, 170);
     resetButton.mousePressed(resetTargets);
-
-    for (let i = 0; i < POP_SIZE; i++) {
-        flock.push(new Boid(i < POP_SIZE * 0.1));
-    }
+    flock = new Flock(POP_SIZE)
 }
 
 function draw() {
     background(0);
-    flock.forEach(boid => {
+    flock.flock.forEach(boid => {
 
-        boid.think(targets, flock)
+        boid.think(targets, flock.flock)
         boid.update()
         boid.draw()
         //console.log(boid.acceleration)
@@ -52,6 +51,7 @@ function draw() {
     if(millis() > sightTimer) {
         showSight = false
     }
+    checkFps()
 }
 
 function renderText() {
@@ -77,4 +77,12 @@ function windowResized() {
     windowVec.y = windowHeight
 }
 
-
+function checkFps() {
+    let fr = frameRate()
+    console.log(flock.flock.length)
+    if(fr < MIN_FRAMERATE) {
+        flock.remove(10)
+    } else if(fr > MAX_FRAMERATE) {
+        flock.add()
+    }
+}

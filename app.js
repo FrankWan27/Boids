@@ -27,7 +27,9 @@ io.sockets.on('connection', (socket) => {
 
 	socket.on('add-target', (data) => {
 		console.log(socket.id + ' added target: ' + data.x + ', ' + data.y)
-		targets.push(data)
+		if(data.x > 0 && data.x < 1 && data.y > 0 && data.y < 1) {
+			targets.push(data)
+		}
 		updateTargets()
 	})
 	

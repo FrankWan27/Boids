@@ -1,6 +1,10 @@
 class Boid {
-	constructor(debug) {
-        this.position = createVector(random(windowWidth), random(windowHeight))
+	constructor(debug, location) {
+        if(location) {
+            this.position = location
+        } else {
+            this.position = createVector(random(windowWidth), random(windowHeight))
+        }
         this.velocity = createVector()
         this.acceleration = createVector()
         this.size = 3
@@ -50,7 +54,7 @@ class Boid {
             {
                 let distance = (this.position.x - other.position.x) ** 2 + (this.position.y - other.position.y) ** 2
 
-                if(distance < sightSlider.value() ** 2) {
+                if(distance > 0 && distance < sightSlider.value() ** 2) {
                     if(distance < (sightSlider.value() / 4) ** 2) {
                         totalSeparationForce.add(p5.Vector.sub(this.position, other.position).normalize().div(distance))
                     }
