@@ -1,4 +1,6 @@
 # Boids
 Multiplayer boids simulator
 
-https://boids.herokuapp.com/
+Live demo: https://boids.herokuapp.com/
+
+Mainly serves as multiplayer websocket practice, and boids are cool
