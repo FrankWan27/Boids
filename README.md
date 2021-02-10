@@ -1,4 +1,8 @@
 # Boids
 Multiplayer boids simulator
+## Example
+![Example Boids](https://github.com/FrankWan27/FrankWan27.github.io/blob/master/images/boids.gif?raw=true)
 
-https://boids.herokuapp.com/
+Play here: https://boids.herokuapp.com/
+
+Mainly serves as multiplayer websocket practice, and boids are cool
