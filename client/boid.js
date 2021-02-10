@@ -1,9 +1,10 @@
+
 class Boid {
 	constructor(debug, location) {
         if(location) {
             this.position = location
         } else {
-            this.position = createVector(random(windowWidth), random(windowHeight))
+            this.position = createVector(random(window.innerWidth), random(window.innerHeight))
         }
         this.velocity = createVector()
         this.acceleration = createVector()
@@ -12,21 +13,22 @@ class Boid {
         this.maxForce = 0.1
         this.targetIndex = 0
         this.debug = debug
+        this.sprite = this.drawSprite()
     }
 
     think(targets, flock) {
 
         let seekForce = createVector()
         targets.forEach(target => {
-            seekForce.add(this.seek(p5.Vector.mult(target.position, windowVec)))
+            seekForce.add(this.seek(Vector.mult(target.position, windowVec)))
         })
 
         let [separationForce, alignForce, cohesionForce] = this.calculateForces(flock)
 
-        seekForce.mult(seekSlider.value())
-        separationForce.mult(separationSlider.value())
-        alignForce.mult(alignSlider.value())
-        cohesionForce.mult(cohesionSlider.value())
+        seekForce.mult(seekMult)
+        separationForce.mult(separationMult)
+        alignForce.mult(alignMult)
+        cohesionForce.mult(cohesionMult)
 
         this.applyForce(seekForce)
         this.applyForce(separationForce)
@@ -35,9 +37,9 @@ class Boid {
     }
 
     seek(target) {
-        let desired = p5.Vector.sub(target, this.position)
+        let desired = Vector.sub(target, this.position)
         desired.limit(this.maxSpeed)
-        let steer = p5.Vector.sub(desired, this.velocity)
+        let steer = Vector.sub(desired, this.velocity)
         steer.limit(this.maxForce)
         return steer
     }
@@ -54,9 +56,9 @@ class Boid {
             {
                 let distance = (this.position.x - other.position.x) ** 2 + (this.position.y - other.position.y) ** 2
 
-                if(distance > 0 && distance < sightSlider.value() ** 2) {
-                    if(distance < (sightSlider.value() / 4) ** 2) {
-                        totalSeparationForce.add(p5.Vector.sub(this.position, other.position).normalize().div(distance))
+                if(distance > 0 && distance < sightRadius ** 2) {
+                    if(distance < (sightRadius / 4) ** 2) {
+                        totalSeparationForce.add(Vector.sub(this.position, other.position).normalize().div(distance))
                     }
                     totalAlignForce.add(other.velocity)
                     totalCohesionForce.add(other.position)
@@ -69,11 +71,12 @@ class Boid {
             totalSeparationForce.div(close).setMag(this.maxSpeed)
             totalAlignForce.div(close).setMag(this.maxSpeed)
             totalCohesionForce.div(close)
-            let separationSteer = p5.Vector.sub(totalSeparationForce, this.velocity).limit(this.maxForce)
-            let alignSteer = p5.Vector.sub(totalAlignForce, this.velocity).limit(this.maxForce)
+            let separationSteer = Vector.sub(totalSeparationForce, this.velocity).limit(this.maxForce)
+            let alignSteer = Vector.sub(totalAlignForce, this.velocity).limit(this.maxForce)
             let cohesionSteer = this.seek(totalCohesionForce)
             return [separationSteer, alignSteer, cohesionSteer]
         }
+        
         return [createVector(), createVector(), createVector()]
     }
 
@@ -81,7 +84,7 @@ class Boid {
         this.acceleration.add(force)
     }
 
-    update() {
+    update(delta) {
         //handle movement
         this.position.add(this.velocity)
         this.velocity.add(this.acceleration)
@@ -92,43 +95,49 @@ class Boid {
     }
 
     loop() {
-        if (this.position.x > width) {
+        if (this.position.x > window.innerWidth) {
             this.position.x = 0
         } else if (this.position.x < 0) {
-            this.position.x = width
+            this.position.x = window.innerWidth
         }
 
-        if (this.position.y > height) {
+        if (this.position.y > window.innerHeight) {
             this.position.y = 0
         } else if (this.position.y < 0) {
-            this.position.y = height
+            this.position.y = window.innerHeight
         }
     }
     
     draw() {
-        let theta = this.velocity.heading() + PI / 2
-        push()
-        strokeWeight(2);
-        stroke(255);
-        fill(0);
-        translate(this.position.x, this.position.y)
-        rotate(theta)
-        beginShape()
-        vertex(0, -this.size * 2)
-        vertex(-this.size, this.size * 2)
-        vertex(this.size, this.size * 2)
-        endShape(CLOSE)
-        pop()
         if(showSight && this.debug) { 
             this.drawSight()
         }
+        
+        let theta = this.velocity.heading() + Math.PI / 2
+        
+        this.sprite.rotation = theta
+        this.sprite.position.set(this.position.x, this.position.y)
     }
 
+    drawSprite() {
+        let triangle = new PIXI.Graphics()
+        triangle.beginFill(0x000000)
+        triangle.lineStyle(2, 0xFFFFFF, 1)
+        
+        triangle.drawPolygon([
+            0, -this.size * 2,
+            -this.size, this.size * 2,
+            this.size, this.size * 2
+        ])
+        triangle.endFill()
+        app.stage.addChild(triangle)
+        return triangle
+    }
     drawSight() {
         push()
         stroke(255)
         noFill()
-        circle(this.position.x, this.position.y, sightSlider.value() * 2)
+        circle(this.position.x, this.position.y, sightForce * 2)
         pop()
     }
 }

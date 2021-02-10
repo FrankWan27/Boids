@@ -12,11 +12,16 @@ class Flock {
             return
         }
         for(let i = 0; i < amount; i++) {
-            this.flock.pop()
+            app.stage.removeChild(this.flock.pop().sprite)
         }
     }
 
     add() {
-        this.flock.push(new Boid(false, p5.Vector.add(this.flock[Math.floor(Math.random() * this.flock.length)].position, createVector())))
+        if(this.flock.length >= POP_SIZE) {
+            return
+        }
+
+        let vec = this.flock[random(this.flock.length)].position.clone()
+        this.flock.push(new Boid(false, vec))
     }
 }

@@ -12,5 +12,9 @@
   "dependencies": {
     "express": "^4.17.1",
     "socket.io": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/pixi.js": "^5.0.0",
+    "pixi.js": "^5.3.7"
   }
 }
