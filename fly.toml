@@ -1,0 +1,7 @@
+# fly.toml file generated for boids on 2023-04-07T06:17:00-07:00
+
+app = "boids"
+primary_region = "sjc"
+
+[env]
+  PORT = "8080"
