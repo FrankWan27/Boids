@@ -1,7 +1,8 @@
-# fly.toml file generated for boids on 2023-04-07T06:17:00-07:00
+# fly.toml file generated for boids on 2023-04-07T07:38:51-07:00
 
 app = "boids"
-primary_region = "sjc"
+kill_timeout = 0
+primary_region = "ord"
 
 [env]
   PORT = "8080"
